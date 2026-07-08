@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
   experimental: {
     proxyClientMaxBodySize: '200mb',
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/solve',
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     const extraAncestors = process.env.ALLOWED_FRAME_ANCESTORS?.trim();
     const frameAncestors = extraAncestors ? `'self' ${extraAncestors}` : "'self'";

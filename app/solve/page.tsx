@@ -133,7 +133,7 @@ export default function SolvePage() {
         requirement,
         userNickname: userProfile.nickname || undefined,
         userBio: userProfile.bio || undefined,
-        interactiveMode: true,
+        // 不默认开启 interactiveMode：交互式内容按需由大纲规划，避免产出过多 interactive 场景
       };
 
       // 5) 组装 GenerationSessionState（复用现有 generation-preview 流程）

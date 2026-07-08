@@ -828,9 +828,10 @@ export const useSettingsStore = create<SettingsState>()(
         ),
         providersConfig: initialProvidersConfig,
         ttsModel: migratedData?.ttsModel || 'openai-tts',
-        selectedAgentIds: migratedData?.selectedAgentIds || ['default-1', 'default-2', 'default-3'],
-        agentMode: 'auto' as const,
-        autoAgentCount: 3,
+        selectedAgentIds: migratedData?.selectedAgentIds || ['default-1'],
+        // 1v1 讲题：默认只用单个预设 AI teacher（default-1），不自动生成多角色
+        agentMode: 'preset' as const,
+        autoAgentCount: 1,
         agentVoiceOverrides: {},
         agentSelectionIsUserSet: false,
 
