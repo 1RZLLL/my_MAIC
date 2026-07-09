@@ -503,6 +503,22 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         },
       },
       {
+        id: 'qwen3.7-max-2026-06-08',
+        name: 'Qwen3.7 Max (2026-06-08)',
+        contextWindow: 1000000,
+        outputWindow: 64000,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: true,
+          thinking: {
+            toggleable: true,
+            budgetAdjustable: true,
+            defaultEnabled: false,
+          },
+        },
+      },
+      {
         id: 'qwen3.6-max-preview',
         name: 'Qwen3.6 Max Preview',
         contextWindow: 256000,
