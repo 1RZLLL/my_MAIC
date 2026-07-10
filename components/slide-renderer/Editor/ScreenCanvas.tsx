@@ -4,6 +4,9 @@ import { ScreenElement } from './ScreenElement';
 import { HighlightOverlay } from './HighlightOverlay';
 import { SpotlightOverlay } from './SpotlightOverlay';
 import { LaserOverlay } from './LaserOverlay';
+import { SlideQuestionPopover } from '@/components/stage/SlideQuestionPopover';
+import { getElementText } from '@/lib/utils/element-text';
+import { useSlideQnaStore } from '@/lib/store/slide-qna';
 import { useSlideBackgroundStyle } from '@/lib/hooks/use-slide-background-style';
 import { useCanvasStore } from '@/lib/store';
 import { useSceneSelector } from '@/lib/contexts/scene-context';
@@ -58,6 +61,22 @@ export function ScreenCanvas() {
     );
   }, [zoomTarget, elements]);
 
+  // Click-to-ask: clicking a slide element opens the in-place question popover.
+  const handleElementClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = (e.target as HTMLElement).closest('[data-element-id]');
+    if (!target) return;
+    const elementId = target.getAttribute('data-element-id');
+    if (!elementId) return;
+    const element = elements.find((el) => el.id === elementId);
+    if (!element) return;
+    useCanvasStore.getState().setHighlight([elementId]);
+    useSlideQnaStore.getState().openFor({
+      elementId,
+      text: getElementText(element),
+      rect: target.getBoundingClientRect(),
+    });
+  };
+
   return (
     <div className="relative h-full w-full overflow-hidden select-none" ref={canvasRef}>
       <div
@@ -83,12 +102,13 @@ export function ScreenCanvas() {
 
         {/* Content layer - scaled */}
         <div
-          className="absolute top-0 left-0 origin-top-left"
+          className="absolute top-0 left-0 origin-top-left cursor-pointer"
           style={{
             width: `${viewportStyles.width}px`,
             height: `${viewportStyles.height}px`,
             transform: `scale(${canvasScale})`,
           }}
+          onClick={handleElementClick}
         >
           {elements.map((element, index) => (
             <ScreenElement key={element.id} elementInfo={element} elementIndex={index + 1} />
@@ -118,6 +138,9 @@ export function ScreenCanvas() {
           </div>
         </div>
       </div>
+
+      {/* Click-to-ask in-place question popover */}
+      <SlideQuestionPopover />
     </div>
   );
 }

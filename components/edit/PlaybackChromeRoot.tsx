@@ -41,6 +41,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { AlertTriangle } from 'lucide-react';
 import { VisuallyHidden } from 'radix-ui';
+import { useSlideQnaStore } from '@/lib/store/slide-qna';
 
 /**
  * Imperative handle exposed via `ref` so the parent (`Stage`) can tear
@@ -226,6 +227,37 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
       // Fire new chat round — SSE events will drive thinking → agent_start → speech
       await chatAreaRef.current?.resumeActiveSession();
     }, []);
+
+    // Register the click-to-ask bridge: ScreenCanvas / SlideQuestionPopover call
+    // these handlers to route a slide-element question into the interrupt flow,
+    // and to pause playback while the user is typing. Re-registered when
+    // engineMode changes so the closures read a fresh mode.
+    useEffect(() => {
+      useSlideQnaStore.getState().setHandlers({
+        ask: (question) => {
+          const sel = useSlideQnaStore.getState().selected;
+          const msg = sel
+            ? `[学生圈选了当前页内容：「${sel.text}」(elementId: ${sel.elementId})]\n${question}`
+            : question;
+          if (
+            engineRef.current &&
+            (engineMode === 'playing' || engineMode === 'live' || engineMode === 'paused')
+          ) {
+            // handleUserInterrupt fires onUserInterrupt -> chatArea.sendMessage
+            engineRef.current.handleUserInterrupt(msg);
+          } else {
+            chatAreaRef.current?.sendMessage(msg);
+          }
+          chatAreaRef.current?.switchToTab('chat');
+          setChatIsStreaming(true);
+        },
+        onOpen: () => {
+          if (engineRef.current && (engineMode === 'playing' || engineMode === 'live')) {
+            engineRef.current.pause();
+          }
+        },
+      });
+    }, [engineMode]);
 
     /** Reset all live/discussion state (shared by doSessionCleanup & onDiscussionEnd) */
     const resetLiveState = useCallback(() => {
