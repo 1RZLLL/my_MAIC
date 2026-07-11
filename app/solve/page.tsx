@@ -109,6 +109,13 @@ export default function SolvePage() {
     setSubmitting(true);
     setError(null);
 
+    // 拍题讲题固定为 1v1：强制单个预设 AI teacher，覆盖浏览器里可能残留的旧设置
+    // （auto / 三人），确保本次生成的课堂 stage 只烙入 default-1，live 问答走单人路径。
+    const settings = useSettingsStore.getState();
+    settings.setAgentMode('preset');
+    settings.setSelectedAgentIds(['default-1']);
+    settings.setAgentSelectionIsUserSet(false);
+
     try {
       // 1) 读图 + 2) 客户端压缩
       const compressed = await compressImage(imageFile);
