@@ -349,6 +349,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Diagnostic: surface why images may or may not reach the model as vision input.
+    log.info(
+      `[vision-check] model=${modelString} hasVision=${hasVision} pdfImages=${pdfImages?.length ?? 0} imageMappingKeys=${imageMapping ? Object.keys(imageMapping).length : 0} visionImages=${visionImages?.length ?? 0}`,
+    );
+
     // Build media snippet conditions based on enabled flags.
     const imageGenerationEnabled = req.headers.get('x-image-generation-enabled') === 'true';
     const videoGenerationEnabled = req.headers.get('x-video-generation-enabled') === 'true';
