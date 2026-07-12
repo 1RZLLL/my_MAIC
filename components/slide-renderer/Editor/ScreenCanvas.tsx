@@ -69,6 +69,10 @@ export function ScreenCanvas() {
     if (!elementId) return;
     const element = elements.find((el) => el.id === elementId);
     if (!element) return;
+    // Hit a real element: keep this click from bubbling up to canvas-area's
+    // handleSlideClick (which toggles play/pause). Otherwise the same click that
+    // opens the popover would also resume the lecture, and the question never sends.
+    e.stopPropagation();
     useCanvasStore.getState().setHighlight([elementId]);
     useSlideQnaStore.getState().openFor({
       elementId,
