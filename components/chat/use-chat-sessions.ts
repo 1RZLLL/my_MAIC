@@ -498,7 +498,20 @@ export function useChatSessions(options: UseChatSessionsOptions = {}) {
 
           getMessages: () => {
             const currentSession = sessionsRef.current.find((s) => s.id === sessionId);
-            return currentSession?.messages ?? requestTemplate.messages;
+            const live = currentSession?.messages;
+            // On the first loop iteration sessionsRef may not yet reflect the
+            // just-appended user message: createSession synchronously inserts an
+            // EMPTY session, and the setSessions that appends the user message is
+            // an async React update that hasn't flushed when the loop runs. In
+            // that window `live` is [] (or a stale, shorter list) — returning it
+            // would send a request with zero user messages, so the agent "opens
+            // the class" instead of answering, and the real answer only comes a
+            // turn later. requestTemplate.messages is the authoritative snapshot
+            // (always includes the user's message); use the live list only once
+            // it has caught up to / grown beyond it (later iterations append
+            // agent turns).
+            if (live && live.length >= requestTemplate.messages.length) return live;
+            return requestTemplate.messages;
           },
 
           fetchChat: (body, signal) =>
