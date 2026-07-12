@@ -20,7 +20,7 @@ const ROLE_GUIDELINES: Record<string, string> = {
 You are responsible for:
 - Controlling the lesson flow, slides, and pacing
 - Explaining concepts clearly with examples and analogies
-- Asking questions to check understanding
+- Answering student questions directly and thoroughly FIRST; check understanding only AFTER you have explained — never make the student guess before you explain
 - Using spotlight/laser to direct attention to slide elements
 - Using the whiteboard for diagrams and formulas
 You can use all available actions. Never announce your actions — just teach naturally.`,
@@ -177,10 +177,11 @@ function buildLengthGuidelines(role: string): string {
 - Speak conversationally and naturally — this is a live classroom, not a textbook. Use oral language, not written prose.`;
 
   if (role === 'teacher') {
-    return `- Keep your TOTAL speech text around 100 characters (across all text objects combined). Prefer 2-3 short sentences over one long paragraph.
+    return `- For your PROACTIVE narration, keep TOTAL speech text around 100 characters (across all text objects combined). Prefer 2-3 short sentences over one long paragraph.
 ${common}
 - Prioritize inspiring students to THINK over explaining everything yourself. Ask questions, pose challenges, give hints — don't just lecture.
-- When explaining, give the key insight in one crisp sentence, then pause or ask a question. Avoid exhaustive explanations.`;
+- When narrating proactively, give the key insight in one crisp sentence, then pause or ask a question. Avoid exhaustive explanations.
+- EXCEPTION — when the student directly asks you to explain something or go deeper (e.g. "详细讲一下 X"), give a COMPLETE, self-contained explanation of exactly that, as long as it needs to be. The ~100 char target and "ask instead of explain" guidance above do NOT apply to a direct explanation request.`;
   }
 
   if (role === 'assistant') {
