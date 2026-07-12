@@ -237,7 +237,7 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
         ask: (question) => {
           const sel = useSlideQnaStore.getState().selected;
           const msg = sel
-            ? `[学生圈选了当前页内容：「${sel.text}」(elementId: ${sel.elementId})]\n${question}`
+            ? `${question}\n\n（我指的是当前这页幻灯片上的一个元素，elementId=${sel.elementId}，它的内容是：「${sel.text}」。请直接针对我的问题、围绕这个元素讲解，并用 spotlight 或 laser 指向它，不要重讲整页。）`
             : question;
           if (
             engineRef.current &&
