@@ -7,6 +7,7 @@
  */
 export type BuiltInProviderId =
   | 'openai'
+  | 'agnes'
   | 'anthropic'
   | 'google'
   | 'deepseek'

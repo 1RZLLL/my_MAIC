@@ -239,7 +239,6 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
           const msg = sel
             ? `${question}\n\n（我指的是当前这页幻灯片上的一个元素，elementId=${sel.elementId}，它的内容是：「${sel.text}」。请直接针对我的问题、围绕这个元素讲解，并用 spotlight 或 laser 指向它，不要重讲整页。）`
             : question;
-          console.log('[click-to-ask] ask fired. engineMode=', engineMode, 'msg=', msg);
           if (
             engineRef.current &&
             (engineMode === 'playing' || engineMode === 'live' || engineMode === 'paused')
@@ -253,7 +252,6 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
           setChatIsStreaming(true);
         },
         onOpen: () => {
-          console.log('[click-to-ask] onOpen fired. engineMode=', engineMode);
           if (engineRef.current && (engineMode === 'playing' || engineMode === 'live')) {
             engineRef.current.pause();
           }

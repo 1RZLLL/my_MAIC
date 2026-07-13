@@ -58,6 +58,26 @@ export const MONO_LOGO_PROVIDERS: ReadonlySet<string> = new Set(['openai', 'open
  * Provider registry
  */
 export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
+  agnes: {
+    id: 'agnes',
+    name: 'Agnes AI',
+    type: 'openai',
+    defaultBaseUrl: 'https://apihub.agnes-ai.com/v1',
+    requiresApiKey: true,
+    models: [
+      {
+        id: 'agnes-2.0-flash',
+        name: 'Agnes 2.0 Flash',
+        contextWindow: 512000,
+        outputWindow: 65536,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: true,
+        },
+      },
+    ],
+  },
   openai: {
     id: 'openai',
     name: 'OpenAI',
