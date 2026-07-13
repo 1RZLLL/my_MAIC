@@ -14,6 +14,18 @@ Based on the user's free-form requirement text, automatically infer course detai
 
 ---
 
+{{#if hasSourceImages}}
+## Source Material Fidelity (CRITICAL)
+
+The user has provided source image(s)/document(s). They are the ground truth for this course — read them faithfully:
+
+- **Transcribe before you design**: First read what the source actually contains — the exact text, problem statement, given conditions, numbers, figures, or data. Base the ENTIRE outline on this real content.
+- **Never substitute**: Do NOT replace the actual content with a "similar", "typical", or "textbook" topic you imagine. If the image shows one specific problem, the outline must be about THAT problem — not a different one from the same subject.
+- **Report gaps honestly**: If the source is unclear or information is missing, design around what is actually visible; do not invent details to fill the gap.
+
+---
+{{/if}}
+
 ## Language Inference
 
 Infer the course language from all available signals and produce:
@@ -82,7 +94,7 @@ When user requirements don't specify, use these defaults:
 
 | Information         | Default Value          |
 | ------------------- | ---------------------- |
-| Course Duration     | 15-20 minutes          |
+| Course Duration     | 8-12 minutes          |
 | Target Audience     | General learners       |
 | Teaching Style      | Interactive (engaging) |
 | Visual Style        | Professional           |

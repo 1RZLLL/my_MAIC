@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="NVIDIA">
+  <rect width="48" height="48" rx="10" fill="#76B900"/>
+  <ellipse cx="24" cy="24" rx="15" ry="9" fill="#ffffff"/>
+  <circle cx="24" cy="24" r="5" fill="#76B900"/>
+</svg>

@@ -22,6 +22,7 @@ export type BuiltInProviderId =
   | 'tencent-hunyuan'
   | 'xiaomi'
   | 'lemonade'
+  | 'nvidia'
   | 'ollama';
 
 /**
@@ -62,7 +63,8 @@ export type ThinkingRequestAdapter =
   | 'openrouter'
   | 'hunyuan'
   | 'xiaomi'
-  | 'lemonade';
+  | 'lemonade'
+  | 'minimax';
 
 /**
  * Describes a model's thinking/reasoning API control capability.

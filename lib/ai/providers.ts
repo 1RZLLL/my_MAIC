@@ -6,7 +6,7 @@
  * - Anthropic Claude (native)
  * - Google Gemini (native)
  * - MiniMax (Anthropic-compatible, recommended by official)
- * - OpenAI-compatible providers (DeepSeek, Qwen, Kimi, GLM, SiliconFlow, Doubao, Tencent, Xiaomi, Lemonade, etc.)
+ * - OpenAI-compatible providers (DeepSeek, Qwen, Kimi, GLM, SiliconFlow, Doubao, Tencent, Xiaomi, Lemonade, NVIDIA NIM, etc.)
  *
  * Sources:
  * - https://platform.openai.com/docs/models
@@ -1220,6 +1220,33 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       },
     ],
   },
+
+  nvidia: {
+    id: 'nvidia',
+    name: 'NVIDIA NIM',
+    type: 'openai',
+    defaultBaseUrl: 'https://integrate.api.nvidia.com/v1',
+    requiresApiKey: true,
+    icon: '/logos/nvidia.svg',
+    models: [
+      {
+        id: 'minimaxai/minimax-m3',
+        name: 'MiniMax M3',
+        contextWindow: 1000000,
+        outputWindow: 8192,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: true,
+          thinking: {
+            toggleable: true,
+            budgetAdjustable: false,
+            defaultEnabled: false,
+          },
+        },
+      },
+    ],
+  },
 };
 
 applyModelMetadata(PROVIDERS);
@@ -1399,6 +1426,15 @@ function getCompatThinkingBodyParams(
         chatTemplateKwargs.thinking_budget = budget;
       }
       return { chat_template_kwargs: chatTemplateKwargs };
+    }
+
+    case 'minimax': {
+      // NVIDIA NIM (and other OpenAI-compatible hosts) expose MiniMax-M3's
+      // reasoning toggle via chat_template_kwargs.thinking_mode, matching the
+      // provider's own /chat/completions example.
+      if (mode === 'disabled') return { chat_template_kwargs: { thinking_mode: 'disabled' } };
+      if (mode === 'enabled') return { chat_template_kwargs: { thinking_mode: 'enabled' } };
+      return undefined;
     }
 
     default:

@@ -227,6 +227,11 @@ const doubaoSeed20Effort: ThinkingCapability = {
 
 const minimaxM3Thinking = toggleCapability('anthropic', false);
 
+// NVIDIA NIM hosts MiniMax-M3 behind the OpenAI /chat/completions API, where the
+// reasoning toggle is sent as chat_template_kwargs.thinking_mode (see the
+// 'minimax' request adapter). Default off to conserve tokens on the free tier.
+const nvidiaMinimaxM3Thinking = toggleCapability('minimax', false);
+
 const THINKING_CAPABILITIES: Record<string, ThinkingCapability> = {
   [getModelMetadataKey('openai', 'gpt-5.5')]: effortCapability(
     'openai',
@@ -353,6 +358,8 @@ const THINKING_CAPABILITIES: Record<string, ThinkingCapability> = {
 
   [getModelMetadataKey('minimax', 'MiniMax-M3')]: minimaxM3Thinking,
   [getModelMetadataKey('minimax', 'MiniMax-M2.7')]: fixedThinkingCapability,
+
+  [getModelMetadataKey('nvidia', 'minimaxai/minimax-m3')]: nvidiaMinimaxM3Thinking,
 
   [getModelMetadataKey('tencent-hunyuan', 'hy3-preview')]: hunyuanHy3Effort,
 

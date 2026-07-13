@@ -200,6 +200,18 @@ describe('OpenAI provider defaults', () => {
       { mode: 'enabled', budgetTokens: 4096 },
       { chat_template_kwargs: { enable_thinking: true, thinking_budget: 4096 } },
     ],
+    [
+      'nvidia',
+      'minimaxai/minimax-m3',
+      { mode: 'disabled' },
+      { chat_template_kwargs: { thinking_mode: 'disabled' } },
+    ],
+    [
+      'nvidia',
+      'minimaxai/minimax-m3',
+      { mode: 'enabled' },
+      { chat_template_kwargs: { thinking_mode: 'enabled' } },
+    ],
   ] as const)(
     'injects %s thinking params into the OpenAI-compatible request body',
     async (providerId, modelId, thinkingConfig, expected) => {

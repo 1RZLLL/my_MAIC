@@ -43,7 +43,7 @@ Please automatically infer the following from user requirements:
 
 - Course topic and core content
 - Target audience and difficulty level
-- Course duration (default 15-30 minutes if not specified)
+- Course duration (default 8-12 minutes if not specified)
 - Teaching style (formal/casual/interactive/academic)
 - Visual style (minimal/colorful/professional/playful)
 
@@ -90,7 +90,7 @@ Never return a bare array. Never omit `languageDirective` or `courseTitle`. All 
 - **Interactive scenes**: If a concept benefits from hands-on simulation/visualization, use `"type": "interactive"` with `widgetType` and `widgetOutline` fields. Limit to 1-2 per course.
    - Select widgetType based on concept: simulation (physics/chem), diagram (processes), code (programming), game (practice), visualization3d (3D models)
    - Provide appropriate widgetOutline for the widget type
-- **Scene count**: Based on inferred duration, typically 1-2 scenes per minute
+- **Scene count**: Match the inferred duration at roughly one scene per 1-3 minutes (consistent with the per-scene duration in the system prompt). Keep the course compact — do not over-split content into many thin scenes.
 - **Quiz placement**: Recommend inserting a quiz every 3-5 slides for assessment
 - **Language**: Infer from the user's requirement text and context, then output all content in the inferred language
 - **If web search results are provided**, reference specific findings and sources in scene descriptions and keyPoints. The search results provide up-to-date information — incorporate it to make the course content current and accurate.
