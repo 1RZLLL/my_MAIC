@@ -66,6 +66,7 @@ const LLM_ENV_MAP: Record<string, string> = {
   OLLAMA: 'ollama',
   LEMONADE: 'lemonade',
   NVIDIA: 'nvidia',
+  SHENMA: 'shenma',
 };
 
 const TTS_ENV_MAP: Record<string, string> = {

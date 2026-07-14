@@ -6,7 +6,7 @@
  * - Anthropic Claude (native)
  * - Google Gemini (native)
  * - MiniMax (Anthropic-compatible, recommended by official)
- * - OpenAI-compatible providers (DeepSeek, Qwen, Kimi, GLM, SiliconFlow, Doubao, Tencent, Xiaomi, Lemonade, NVIDIA NIM, etc.)
+ * - OpenAI-compatible providers (DeepSeek, Qwen, Kimi, GLM, SiliconFlow, Doubao, Tencent, Xiaomi, Lemonade, NVIDIA NIM, Shenma, etc.)
  *
  * Sources:
  * - https://platform.openai.com/docs/models
@@ -1243,6 +1243,34 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
             budgetAdjustable: false,
             defaultEnabled: false,
           },
+        },
+      },
+    ],
+  },
+
+  // Alibaba "Shenma" internal model gateway (OpenAI-compatible). NOTE: the
+  // default base URL is an intranet, HTTP-only endpoint — reachable only from
+  // inside Alibaba's network, never from a public deployment (e.g. Vercel).
+  // Prefer configuring it as a server-managed provider via SHENMA_* env vars so
+  // the production SSRF guard (which blocks client-supplied intranet URLs) is
+  // bypassed for this operator-trusted endpoint.
+  shenma: {
+    id: 'shenma',
+    name: 'Shenma AI',
+    type: 'openai',
+    defaultBaseUrl: 'http://shenma-ai-pub.alibaba-inc.com/v1',
+    requiresApiKey: true,
+    icon: '/logos/qwen.svg',
+    models: [
+      {
+        id: 'qwen3-moe-vl-a3b-jieti',
+        name: 'Qwen3 MoE VL A3B (解题)',
+        contextWindow: 131072,
+        outputWindow: 8192,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: true,
         },
       },
     ],

@@ -23,6 +23,7 @@ export type BuiltInProviderId =
   | 'xiaomi'
   | 'lemonade'
   | 'nvidia'
+  | 'shenma'
   | 'ollama';
 
 /**

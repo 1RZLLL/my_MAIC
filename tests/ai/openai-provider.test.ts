@@ -141,6 +141,32 @@ describe('OpenAI provider defaults', () => {
     });
   });
 
+  it('includes the internal Shenma Qwen3 VL problem-solving model', () => {
+    expect(getModelInfo('shenma', 'qwen3-moe-vl-a3b-jieti')).toMatchObject({
+      id: 'qwen3-moe-vl-a3b-jieti',
+      name: 'Qwen3 MoE VL A3B (解题)',
+      capabilities: {
+        streaming: true,
+        tools: true,
+        vision: true,
+      },
+    });
+  });
+
+  it('routes the Shenma Qwen3 model through the OpenAI chat completions API', () => {
+    getModel({
+      providerId: 'shenma',
+      modelId: 'qwen3-moe-vl-a3b-jieti',
+      apiKey: 'sk-test',
+    });
+
+    // Non-native providers use openai.chat() (never the Responses API). The
+    // returned model is additionally wrapped with reasoning middleware, so we
+    // assert on the underlying SDK call rather than the wrapped instance.
+    expect(openAiMock.chat).toHaveBeenCalledWith('qwen3-moe-vl-a3b-jieti');
+    expect(openAiMock.responses).not.toHaveBeenCalled();
+  });
+
   it.each([
     ['kimi', 'kimi-k2.6', { mode: 'disabled' }, { thinking: { type: 'disabled' } }],
     ['glm', 'glm-5.1', { mode: 'enabled' }, { thinking: { type: 'enabled' } }],
